@@ -33,6 +33,41 @@ rep("e.className='chip'+(/لم|معفاة/.test(c.text)?' warn':'')",
 # scene-number specifics: title on 2 stays; outro 16 -> 8
 rep("outro.style.opacity = (s.n===16) ? ease((t-s.start-0.2)/0.6) : 0;",
     "outro.style.opacity = (s.n===8) ? ease((t-s.start-0.2)/0.6) : 0;")
+# title card leaves after ~4s so the signing scene is visible
+rep("title.style.opacity = (s.n===2) ? Math.min(ease((t-s.start-0.1)/0.4), 1-ease((t-(s.end-0.3))/0.3)) : 0;",
+    "title.style.opacity = (s.n===2) ? Math.min(ease((t-s.start-0.1)/0.4), 1-ease((t-(s.start+4.0))/0.5)) : 0;")
+
+# ---------- part motion: oscillation along travel axis, rumble, slow grow ----------
+rep("""      var pop=0.95+0.05*easeOutBack((t-s.start-0.05)/0.55);
+      S.parts.forEach(function(P){ var a=P.p.amp, ph=P.p.ph;
+        var br=1+0.011*a*Math.sin(2*Math.PI*0.33*t+ph), sx=1-0.004*a*Math.sin(2*Math.PI*0.33*t+ph);
+        var rot=0.55*a*Math.sin(2*Math.PI*0.19*t+ph*1.7), bob=-5*a*(0.5+0.5*Math.sin(2*Math.PI*0.42*t+ph*0.9));
+        P.e.style.transform='translateY('+bob.toFixed(2)+'px) rotate('+rot.toFixed(3)+'deg) scale('+(sx*pop).toFixed(4)+','+(br*pop).toFixed(4)+')'; });""",
+    """      var pop=0.95+0.05*easeOutBack((t-s.start-0.05)/0.55);
+      S.parts.forEach(function(P){ var a=P.p.amp||0.6, ph=P.p.ph||0;
+        var br=1+0.006*a*Math.sin(2*Math.PI*0.33*t+ph), sx=1-0.003*a*Math.sin(2*Math.PI*0.33*t+ph);
+        var rot=0.3*a*Math.sin(2*Math.PI*0.19*t+ph*1.7), bob=-4*a*(0.5+0.5*Math.sin(2*Math.PI*0.42*t+ph*0.9));
+        var ex=0,ey=0;
+        if(P.p.osc){ var u=Math.sin(2*Math.PI*P.p.osc[2]*t+ph); ex+=P.p.osc[0]*u; ey+=P.p.osc[1]*u; }
+        if(P.p.rumble){ ex+=P.p.rumble*Math.sin(2*Math.PI*7.3*t+ph); ey+=0.6*P.p.rumble*Math.sin(2*Math.PI*9.1*t+ph*2); }
+        var gs=(P.p.scale0||1)+(P.p.grow||0)*clamp((t-s.start)/Math.max(1,(s.end-s.start)),0,1);
+        P.e.style.transform='translate('+ex.toFixed(2)+'px,'+(bob+ey).toFixed(2)+'px) rotate('+rot.toFixed(3)+'deg) scale('+(sx*pop*gs).toFixed(4)+','+(br*pop*gs).toFixed(4)+')'; });""")
+
+# ---------- new FX: speed lines + dust puffs behind a moving train ----------
+rep("    stamp:function(g,p){",
+    """    speedlines:function(g,p){ var ar=(p.ang||0)*Math.PI/180, dx=Math.cos(ar), dy=Math.sin(ar), ls=[];
+      for(var i=0;i<(p.n||7);i++){ ls.push({e:el('line',{stroke:'#ffffff','stroke-width':7+5*rnd(i),'stroke-linecap':'round'},g),o:rnd(i+4),pp:(rnd(i+9)-0.5)*260}); }
+      return function(t){ ls.forEach(function(l){ var ph=frac(t*0.9+l.o); var dd=-120-520*ph;
+        var x0=p.x+dx*dd-dy*l.pp, y0=p.y+dy*dd+dx*l.pp, x1=x0-dx*(60+80*l.o), y1=y0-dy*(60+80*l.o);
+        l.e.setAttribute('x1',x0.toFixed(1)); l.e.setAttribute('y1',y0.toFixed(1)); l.e.setAttribute('x2',x1.toFixed(1)); l.e.setAttribute('y2',y1.toFixed(1));
+        l.e.setAttribute('opacity',(0.45*Math.sin(Math.PI*ph)).toFixed(3)); }); }; },
+    puffs:function(g,p){ var ar=(p.ang||0)*Math.PI/180, dx=Math.cos(ar), dy=Math.sin(ar), cs=[];
+      for(var i=0;i<6;i++){ cs.push({e:el('circle',{fill:'#efe3d0'},g),o:rnd(i+2),pp:(rnd(i+7)-0.5)*40}); }
+      return function(t){ cs.forEach(function(c){ var ph=frac(t/1.6+c.o);
+        var x=p.x-dx*220*ph-dy*c.pp, y=p.y-dy*220*ph+dx*c.pp-30*ph;
+        c.e.setAttribute('cx',x.toFixed(1)); c.e.setAttribute('cy',y.toFixed(1)); c.e.setAttribute('r',(10+34*ph).toFixed(1));
+        c.e.setAttribute('opacity',(0.4*(1-ph)*Math.min(1,ph*6)).toFixed(3)); }); }; },
+    stamp:function(g,p){""")
 
 # ---------- new ART stickers ----------
 rep("    gears:function(){",

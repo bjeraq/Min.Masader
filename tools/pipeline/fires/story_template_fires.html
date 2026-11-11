@@ -34,7 +34,13 @@ html,body{margin:0;background:#0b1216;overflow:hidden;font-family:Tajawal,"Segoe
 #counter .unit{font-size:64px;font-weight:800;color:#13232b;margin-right:18px}
 #counter .note{font-size:36px;color:#5b6b75;margin-top:10px}
 #sub{display:none!important;position:absolute;left:50px;right:50px;bottom:120px;z-index:20;background:rgba(10,18,22,.78);color:#fff;font-size:50px;font-weight:700;line-height:1.55;padding:30px 40px;border-radius:32px;text-align:center;opacity:0}
-#disc{position:absolute;bottom:52px;left:0;right:0;text-align:center;z-index:20;color:rgba(255,255,255,.75);font-size:28px;font-weight:600}
+#disc{position:absolute;bottom:46px;left:40px;right:40px;text-align:center;z-index:20;color:rgba(255,255,255,.85);font-size:26px;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+#person{position:absolute;left:60px;right:60px;top:560px;z-index:21;opacity:0}
+#person .pc{background:rgba(255,253,248,.97);border-radius:40px;padding:40px 44px 44px;box-shadow:0 22px 60px rgba(0,0,0,.4);border-right:16px solid #e0703f;display:flex;gap:34px;align-items:center}
+#person .av{flex:none;width:170px;height:170px;border-radius:50%;background:#13232b;display:flex;align-items:center;justify-content:center}
+#person .nm{font-size:66px;font-weight:900;color:#13232b;line-height:1.15}
+#person .rl{font-size:38px;font-weight:800;color:#0f6b6b;margin-top:8px}
+#person .ft{font-size:36px;font-weight:700;color:#3b4a52;margin-top:14px;line-height:1.4}
 #title{position:absolute;inset:0;z-index:22;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;pointer-events:none}
 #title .k{background:#f0a070;color:#1b1206;font-size:44px;font-weight:900;padding:10px 30px;border-radius:999px;margin-bottom:30px}
 #title .panel{background:rgba(10,18,22,.84);border-radius:48px;padding:56px 50px 60px;margin:0 50px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
@@ -88,10 +94,11 @@ html,body{margin:0;background:#0b1216;overflow:hidden;font-family:Tajawal,"Segoe
   <div id="chips"></div></div>
   <div id="badge"><span></span><div class="bl"></div></div>
   <div id="counter"><div class="box"><span class="num">0</span><span class="unit">فلس</span><div class="note">مثال افتراضي للتوضيح</div></div></div>
-  <div id="title"><div class="panel"><div class="k" style="display:inline-block">ذكرى · 1991–2026</div><h1>35 عاماً<br>على إطفاء آخر بئر</h1><h2>آبار الكويت المشتعلة: الأرقام بمصادرها</h2></div></div>
+  <div id="title"><div class="panel"><div class="k" style="display:inline-block">ذكرى · 1991–2026</div><h1>35 عاماً<br>على إطفاء آخر بئر</h1><h2>وفريقٌ كويتي دخل النار</h2></div></div>
   <div id="outro"><div class="logo"><b>من<i class="odot"></i>مصادر</b><span>أخبارٌ بمصادرها</span></div>
-    <div class="src">المصادر: كونا · الجريدة · الراي · MEES · Oil &amp; Gas Journal · وزارة الدفاع الأمريكية · ناسا · الأمم المتحدة · نفط الكويت<small>رسوم توضيحية بالذكاء الاصطناعي · مواقع الحرائق على الخريطة تمثيلية · التفاصيل والأرقام المختلفة في مقال «مِن مصادر»</small></div></div>
+    <div class="src">المصادر: كونا · الجريدة · Kuwait Times · The National · MEES · Oil &amp; Gas Journal · MEED<small>صور أرشيفية بالملكية العامة: وزارة الدفاع الأمريكية · ناسا · مشاة البحرية الأمريكية · وبعض المشاهد رسوم بالذكاء الاصطناعي · التفاصيل في مقال «مِن مصادر»</small></div></div>
   <div id="sub"></div>
+  <div id="person"><div class="pc"><div class="av"><svg viewBox="0 0 200 200" width="130" height="130"><circle cx="100" cy="72" r="38" fill="#5cc4c4"/><path d="M28,186 C34,130 64,112 100,112 C136,112 166,130 172,186 Z" fill="#5cc4c4"/></svg></div><div><div class="nm"></div><div class="rl"></div><div class="ft"></div></div></div></div>
   <div id="disc">رسوم توضيحية بالذكاء الاصطناعي</div>
 </div></div>
 <script>
@@ -494,9 +501,9 @@ var CFG = __CFG__;
     head.style.transform='translateY('+((1-hp)*40).toFixed(1)+'px) scale('+(0.92+0.08*easeOutBack(hp)).toFixed(3)+')';
     chipEls.forEach(function(c){ var k=(t-c.t)/0.32; var o=clamp(k,0,1)*hout; c.el.style.opacity=o; c.el.style.transform='scale('+(0.8+0.2*easeOutBack(k)).toFixed(3)+')'; });
     if(s.badge){ var k=(t-s.badge.t)/0.45; badge.style.opacity=clamp(k*2,0,1)*hout*(s.badge.t_out?1-ease((t-s.badge.t_out)/0.35):1); badge.style.transform='scale('+(0.4+0.6*easeOutBack(k)).toFixed(3)+') rotate('+(k<1?(1-k)*-10:0).toFixed(2)+'deg)'; } else badge.style.opacity=0;
-    if(s.counter){ var cc=s.counter, kk=ease((t-cc.t0)/(cc.t1-cc.t0)); var v=Math.round((cc.a+(cc.b-cc.a)*kk)/10)*10;
-      counter.querySelector('.num').textContent= v>=1000 ? (v/1000).toFixed(3).replace(/\.?0+$/,'') : String(v);
-      counter.querySelector('.unit').textContent= v>=1000 ? 'دينار' : 'فلس';
+    if(s.counter){ var cc=s.counter, kk=ease((t-cc.t0)/(cc.t1-cc.t0)); var v=Math.round(cc.a+(cc.b-cc.a)*kk);
+      counter.querySelector('.num').textContent=String(v);
+      counter.querySelector('.unit').textContent=cc.unit||''; counter.querySelector('.note').textContent=cc.note||'';
       var ck=(t-(cc.t0-0.6))/0.4; counter.style.opacity=clamp(ck,0,1)*hout; counter.style.transform='scale('+(0.85+0.15*easeOutBack(ck)+(kk>=1?0.08*Math.exp(-6*(t-cc.t1))*Math.sin(25*(t-cc.t1)):0)).toFixed(3)+')';
       counter.querySelector('.num').style.color = kk>=1 ? '#e0703f' : '#0f6b6b';
     } else counter.style.opacity=0;
@@ -511,7 +518,13 @@ var CFG = __CFG__;
     title.style.opacity = (s.n===2) ? Math.min(ease((t-s.start-0.1)/0.4), 1-ease((t-(s.start+4.0))/0.5)) : 0;
     title.style.transform='scale('+(0.94+0.06*ease((t-s.start)/0.6)).toFixed(3)+')';
     outro.style.opacity = (s.n===8) ? ease((t-s.start-0.2)/0.6) : 0;
-    disc.style.opacity = (s.n===1) ? 1 : 0;
+    disc.style.opacity = 1; var dt=(s.credit||'رسم توضيحي بالذكاء الاصطناعي'); if(disc.textContent!==dt) disc.textContent=dt;
+    var PS=s.persons||[], pp=null; PS.forEach(function(q){ if(t>=q.t && t<q.t_out) pp=q; });
+    var pe=document.getElementById('person');
+    if(pp){ if(pe.getAttribute('data-k')!==pp.name){ pe.setAttribute('data-k',pp.name); pe.querySelector('.nm').textContent=pp.name; pe.querySelector('.rl').textContent=pp.role; pe.querySelector('.ft').textContent=pp.fact; }
+      var pk=clamp((t-pp.t)/0.4,0,1), po=clamp((pp.t_out-t)/0.3,0,1);
+      pe.style.opacity=(Math.min(pk,po)*hout).toFixed(3); pe.style.transform='translateX('+((1-easeOutBack(pk))*-120).toFixed(1)+'px)'; }
+    else pe.style.opacity=0;
     bar.style.width=(100*t/CFG.total).toFixed(2)+'%';
     var gi=Math.floor(t*25); grain.style.transform='translate('+Math.round(rnd(gi)*64-32)+'px,'+Math.round(rnd(gi+999)*64-32)+'px)';
   }

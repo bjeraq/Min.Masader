@@ -14,7 +14,7 @@ def dur(p):
 
 durs = []
 for i in range(1, N + 1):
-    src = f'{SP}/audio/narr{i}.wav'; t = f'{SP}/narr_t/n{i:02d}.wav'; f = f'{SP}/narr_f/n{i:02d}.wav'
+    src = f"{SP}/{os.environ.get('AUD', 'audio')}/narr{i}.wav"; t = f'{SP}/narr_t/n{i:02d}.wav'; f = f'{SP}/narr_f/n{i:02d}.wav'
     # trim leading/trailing silence, shorten long internal pauses to 0.35 s
     af = ('silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.05,'
           'areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08,areverse,'

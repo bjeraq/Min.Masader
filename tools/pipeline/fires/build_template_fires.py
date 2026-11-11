@@ -140,6 +140,36 @@ rep("    gears:function(){",
       '<text x="100" y="132" text-anchor="middle" font-family="Tajawal" font-weight="900" font-size="96" fill="#1b4332">$</text>'; },
     gears:function(){""")
 
+
+# ---------- draft 2: credit line per scene, generic counter, person cards, new sources ----------
+rep('#disc{position:absolute;bottom:52px;left:0;right:0;text-align:center;z-index:20;color:rgba(255,255,255,.75);font-size:28px;font-weight:600}',
+    '#disc{position:absolute;bottom:46px;left:40px;right:40px;text-align:center;z-index:20;color:rgba(255,255,255,.85);font-size:26px;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.7)}\n'
+    '#person{position:absolute;left:60px;right:60px;top:560px;z-index:21;opacity:0}\n'
+    '#person .pc{background:rgba(255,253,248,.97);border-radius:40px;padding:40px 44px 44px;box-shadow:0 22px 60px rgba(0,0,0,.4);border-right:16px solid #e0703f;display:flex;gap:34px;align-items:center}\n'
+    '#person .av{flex:none;width:170px;height:170px;border-radius:50%;background:#13232b;display:flex;align-items:center;justify-content:center}\n'
+    '#person .nm{font-size:66px;font-weight:900;color:#13232b;line-height:1.15}\n'
+    '#person .rl{font-size:38px;font-weight:800;color:#0f6b6b;margin-top:8px}\n'
+    '#person .ft{font-size:36px;font-weight:700;color:#3b4a52;margin-top:14px;line-height:1.4}')
+rep('<div id="sub"></div>', '<div id="sub"></div>\n  <div id="person"><div class="pc"><div class="av"><svg viewBox="0 0 200 200" width="130" height="130"><circle cx="100" cy="72" r="38" fill="#5cc4c4"/><path d="M28,186 C34,130 64,112 100,112 C136,112 166,130 172,186 Z" fill="#5cc4c4"/></svg></div><div><div class="nm"></div><div class="rl"></div><div class="ft"></div></div></div></div>')
+rep("""    if(s.counter){ var cc=s.counter, kk=ease((t-cc.t0)/(cc.t1-cc.t0)); var v=Math.round((cc.a+(cc.b-cc.a)*kk)/10)*10;
+      counter.querySelector('.num').textContent= v>=1000 ? (v/1000).toFixed(3).replace(/\\.?0+$/,'') : String(v);
+      counter.querySelector('.unit').textContent= v>=1000 ? 'دينار' : 'فلس';""",
+"""    if(s.counter){ var cc=s.counter, kk=ease((t-cc.t0)/(cc.t1-cc.t0)); var v=Math.round(cc.a+(cc.b-cc.a)*kk);
+      counter.querySelector('.num').textContent=String(v);
+      counter.querySelector('.unit').textContent=cc.unit||''; counter.querySelector('.note').textContent=cc.note||'';""")
+rep("    disc.style.opacity = (s.n===1) ? 1 : 0;",
+    """    disc.style.opacity = 1; var dt=(s.credit||'رسم توضيحي بالذكاء الاصطناعي'); if(disc.textContent!==dt) disc.textContent=dt;
+    var PS=s.persons||[], pp=null; PS.forEach(function(q){ if(t>=q.t && t<q.t_out) pp=q; });
+    var pe=document.getElementById('person');
+    if(pp){ if(pe.getAttribute('data-k')!==pp.name){ pe.setAttribute('data-k',pp.name); pe.querySelector('.nm').textContent=pp.name; pe.querySelector('.rl').textContent=pp.role; pe.querySelector('.ft').textContent=pp.fact; }
+      var pk=clamp((t-pp.t)/0.4,0,1), po=clamp((pp.t_out-t)/0.3,0,1);
+      pe.style.opacity=(Math.min(pk,po)*hout).toFixed(3); pe.style.transform='translateX('+((1-easeOutBack(pk))*-120).toFixed(1)+'px)'; }
+    else pe.style.opacity=0;""")
+rep('المصادر: كونا · الجريدة · الراي · MEES · Oil &amp; Gas Journal · وزارة الدفاع الأمريكية · ناسا · الأمم المتحدة · نفط الكويت<small>رسوم توضيحية بالذكاء الاصطناعي · مواقع الحرائق على الخريطة تمثيلية · التفاصيل والأرقام المختلفة في مقال «مِن مصادر»</small>',
+    'المصادر: كونا · الجريدة · Kuwait Times · The National · MEES · Oil &amp; Gas Journal · MEED<small>صور أرشيفية بالملكية العامة: وزارة الدفاع الأمريكية · ناسا · مشاة البحرية الأمريكية · وبعض المشاهد رسوم بالذكاء الاصطناعي · التفاصيل في مقال «مِن مصادر»</small>')
+rep('<h1>35 عاماً<br>على إطفاء آخر بئر</h1><h2>آبار الكويت المشتعلة: الأرقام بمصادرها</h2>',
+    '<h1>35 عاماً<br>على إطفاء آخر بئر</h1><h2>وفريقٌ كويتي دخل النار</h2>')
+
 out = HERE / 'story_template_fires.html'
 out.write_text(src, encoding='utf-8')
 print('template', out, len(src))

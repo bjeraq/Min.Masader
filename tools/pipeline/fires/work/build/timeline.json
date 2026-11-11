@@ -1,62 +1,62 @@
 {
- "total": 110.18,
- "tempo": 1.15,
+ "total": 107.62,
+ "tempo": 1.12,
  "scenes": [
   {
    "n": 1,
    "start": 0.0,
    "voice": 0.8,
-   "voice_end": 15.832,
-   "end": 16.282
+   "voice_end": 18.017,
+   "end": 18.467
   },
   {
    "n": 2,
-   "start": 16.282,
-   "voice": 16.782,
-   "voice_end": 31.039,
-   "end": 31.489
+   "start": 18.467,
+   "voice": 18.967,
+   "voice_end": 30.182,
+   "end": 30.632
   },
   {
    "n": 3,
-   "start": 31.489,
-   "voice": 31.839,
-   "voice_end": 40.265,
-   "end": 40.715
+   "start": 30.632,
+   "voice": 30.982,
+   "voice_end": 39.62,
+   "end": 40.07
   },
   {
    "n": 4,
-   "start": 40.715,
-   "voice": 41.065,
-   "voice_end": 50.539,
-   "end": 50.989
+   "start": 40.07,
+   "voice": 40.42,
+   "voice_end": 53.583,
+   "end": 54.033
   },
   {
    "n": 5,
-   "start": 50.989,
-   "voice": 51.339,
-   "voice_end": 63.905,
-   "end": 64.355
+   "start": 54.033,
+   "voice": 54.383,
+   "voice_end": 68.546,
+   "end": 68.996
   },
   {
    "n": 6,
-   "start": 64.355,
-   "voice": 64.705,
-   "voice_end": 75.124,
-   "end": 75.574
+   "start": 68.996,
+   "voice": 69.346,
+   "voice_end": 88.491,
+   "end": 88.941
   },
   {
    "n": 7,
-   "start": 75.574,
-   "voice": 75.924,
-   "voice_end": 102.768,
-   "end": 103.218
+   "start": 88.941,
+   "voice": 89.291,
+   "voice_end": 100.123,
+   "end": 100.573
   },
   {
    "n": 8,
-   "start": 103.218,
-   "voice": 103.568,
-   "voice_end": 106.979,
-   "end": 110.179
+   "start": 100.573,
+   "voice": 100.923,
+   "voice_end": 104.425,
+   "end": 107.625
   }
  ]
 }
